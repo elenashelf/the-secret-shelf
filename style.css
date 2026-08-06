@@ -1,29 +1,171 @@
-body {
-    background-color: #fff7f3;
-    color: #4a3428;
-    font-family: Georgia, serif;
-    margin: 40px;
+/* THE SECRET SHELF - Main Style */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lora:wght@400;500&display=swap');
+
+
+* {
+    box-sizing: border-box;
 }
 
-h1 {
-    color: #b76e79;
-    text-align: center;
-    font-size: 45px;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #faf3ed;
+    color: #5b4038;
+    font-family: 'Lora', serif;
+    line-height: 1.6;
 }
+
+
+/* Titolo principale */
+
+.hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+
+.hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    color: #9b5c68;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+
+.subtitle {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: #8b6b62;
+}
+
+
+
+/* Contenitore generale */
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+
+/* Card generali */
+
+.card,
+.book-card {
+    background-color: #fffaf6;
+    border: 1px solid #e6c9c1;
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(120, 80, 70, 0.12);
+}
+
+
+/* Introduzione */
+
+.intro {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 1.1rem;
+}
+
+
+
+/* Titoli sezioni */
 
 h2 {
-    color: #8a6a58;
+    font-family: 'Cormorant Garamond', serif;
     text-align: center;
+    color: #9b5c68;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+
+
+/* Currently Reading */
+
+.reading-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+.book-card {
+    width: 320px;
+    text-align: center;
+}
+
+
+.book-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #9b5c68;
+    font-size: 1.8rem;
+}
+
+
+/* Spazio copertina */
+
+.cover-placeholder {
+    height: 280px;
+    background-color: #f3e2da;
+    border: 2px dashed #d5a9a0;
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #9b756c;
+    font-style: italic;
+
+    margin-bottom: 20px;
+}
+
+
+/* Note libro */
+
+.notes {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fdf1eb;
+    border-radius: 15px;
     font-style: italic;
 }
 
-h3 {
-    color: #7b4b52;
-    border-bottom: 1px solid #d8b4a0;
-    padding-bottom: 8px;
+
+
+/* About Us */
+
+.about {
+    margin-top: 50px;
+    min-height: 250px;
+    text-align: center;
 }
 
-p {
-    font-size: 18px;
-    line-height: 1.6;
+
+.empty-space {
+    color: #a88b82;
+    font-style: italic;
+}
+
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .book-card {
+        width: 100%;
+    }
+
 }
