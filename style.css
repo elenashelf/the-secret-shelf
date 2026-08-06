@@ -277,3 +277,56 @@ h2 {
     transform: translateY(-3px);
 
 }
+
+/* Personal shelves layout */
+
+.shelves-container {
+
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+
+}
+
+
+.shelf-section {
+
+    flex: 1;
+
+    background-color: #fffaf6;
+
+    border: 1px solid #e6c9c1;
+
+    border-radius: 25px;
+
+    padding: 30px;
+
+    box-shadow: 0 8px 20px rgba(120, 80, 70, 0.12);
+
+}
+
+
+.shelf-section .reading-container {
+
+    display: block;
+
+}
+
+
+.shelf-section .book-card {
+
+    width: 100%;
+    margin-bottom: 25px;
+
+}
+
+
+@media (max-width: 800px) {
+
+    .shelves-container {
+
+        flex-direction: column;
+
+    }
+
+}
