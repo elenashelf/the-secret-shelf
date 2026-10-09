@@ -131,9 +131,8 @@
 
 </div>
 </main>
-
-
-document.querySelectorAll(".shelf-section").forEach(function(shelf) {
+<script>
+document.querySelectorAll(".shelf-section").forEach(function (shelf) {
     const addButton = shelf.querySelector(":scope > .add-button");
     const form = shelf.querySelector(".book-form");
     const cancelButton = form.querySelector(".cancel-button");
@@ -142,18 +141,18 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
 
     let editingCard = null;
 
-    addButton.addEventListener("click", function() {
+    addButton.addEventListener("click", function () {
         editingCard = null;
         form.reset();
         saveButton.textContent = "Save book";
         form.hidden = false;
-        form.querySelector('[name="title"]').focus();
     });
 
-    cancelButton.addEventListener("click", function() {
+    cancelButton.addEventListener("click", function () {
         form.reset();
         form.hidden = true;
         editingCard = null;
+        saveButton.textContent = "Save book";
     });
 
     function createBookCard(title, author, rating, review, coverUrl, oldCard) {
@@ -205,25 +204,23 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
         deleteButton.className = "delete-book-button";
         deleteButton.textContent = "Delete";
 
-        editButton.addEventListener("click", function() {
+        editButton.addEventListener("click", function () {
             editingCard = card;
-
             form.elements.title.value = card.dataset.title;
             form.elements.author.value = card.dataset.author;
             form.elements.rating.value = card.dataset.rating;
             form.elements.review.value = card.dataset.review;
-
+            form.elements.cover.value = "";
             saveButton.textContent = "Update book";
             form.hidden = false;
-            form.querySelector('[name="title"]').focus();
-
-            const coverInput = form.elements.cover;
-            coverInput.value = "";
         });
 
-        deleteButton.addEventListener("click", function() {
-            if (confirm('Are you sure you want to delete "' +
-                card.dataset.title + '"?')) {
+        deleteButton.addEventListener("click", function () {
+            const confirmed = confirm(
+                'Are you sure you want to delete "' + card.dataset.title + '"?'
+            );
+
+            if (confirmed) {
                 card.remove();
 
                 if (editingCard === card) {
@@ -245,7 +242,7 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
         }
     }
 
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
 
         const title = form.elements.title.value.trim();
@@ -254,7 +251,9 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
         const review = form.elements.review.value.trim();
         const file = form.elements.cover.files[0];
 
-        if (!title || !author) return;
+        if (!title || !author) {
+            return;
+        }
 
         function saveCard(coverUrl) {
             createBookCard(
@@ -280,21 +279,26 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
 
             const reader = new FileReader();
 
-            reader.onload = function() {
+            reader.onload = function () {
                 saveCard(reader.result);
             };
 
             reader.readAsDataURL(file);
         } else {
-            const oldCover = editingCard
+            const existingCover = editingCard
                 ? editingCard.querySelector(".cover-placeholder img")
                 : null;
 
-            saveCard(oldCover ? oldCover.src : null);
+            saveCard(existingCover ? existingCover.src : null);
         }
     });
 });
 
+
+
+});
+});
+</script>
 </body>
 </html>
 
