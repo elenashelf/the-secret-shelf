@@ -193,8 +193,7 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
             notes.textContent = review || "Your review will be here...";
 
             card.append(cover, heading, authorLine, stars, notes);
-            readingContainer.appendChild(card);
-        }
+readingContainer.appendChild(card);
 
         if (file) {
             if (!file.type.startsWith("image/")) {
