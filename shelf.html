@@ -140,8 +140,9 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
     const readingContainer = shelf.querySelector(".reading-container");
 
     addButton.addEventListener("click", function() {
-        form.hidden = !form.hidden;
-    });
+    form.hidden = false;
+    form.querySelector('input[name="title"]').focus();
+});
 
     cancelButton.addEventListener("click", function() {
         form.reset();
