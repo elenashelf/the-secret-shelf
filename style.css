@@ -415,3 +415,41 @@ h2 {
 .book-form[hidden] {
     display: none;
 }
+
+/* Edit and delete book buttons */
+
+.book-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.edit-book-button,
+.delete-book-button {
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'Lora', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.edit-book-button {
+    background-color: #f3e2da;
+    color: #9b5c68;
+    border: 1px solid #d5a9a0;
+}
+
+.delete-book-button {
+    background-color: #fffaf6;
+    color: #9b5c68;
+    border: 1px solid #e6c9c1;
+}
+
+.edit-book-button:hover,
+.delete-book-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(120, 80, 70, 0.12);
+}
