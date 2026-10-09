@@ -132,22 +132,118 @@
 </div>
 </main>
 
-<script>
+
 document.querySelectorAll(".shelf-section").forEach(function(shelf) {
     const addButton = shelf.querySelector(":scope > .add-button");
     const form = shelf.querySelector(".book-form");
     const cancelButton = form.querySelector(".cancel-button");
     const readingContainer = shelf.querySelector(".reading-container");
+    const saveButton = form.querySelector('button[type="submit"]');
+
+    let editingCard = null;
 
     addButton.addEventListener("click", function() {
-    form.hidden = false;
-    form.querySelector('input[name="title"]').focus();
-});
+        editingCard = null;
+        form.reset();
+        saveButton.textContent = "Save book";
+        form.hidden = false;
+        form.querySelector('[name="title"]').focus();
+    });
 
     cancelButton.addEventListener("click", function() {
         form.reset();
         form.hidden = true;
+        editingCard = null;
     });
+
+    function createBookCard(title, author, rating, review, coverUrl, oldCard) {
+        const card = document.createElement("div");
+        card.className = "book-card";
+
+        card.dataset.title = title;
+        card.dataset.author = author;
+        card.dataset.rating = rating;
+        card.dataset.review = review;
+
+        const cover = document.createElement("div");
+        cover.className = "cover-placeholder";
+
+        if (coverUrl) {
+            const img = document.createElement("img");
+            img.src = coverUrl;
+            img.alt = "Cover of " + title;
+            cover.appendChild(img);
+        } else {
+            cover.textContent = "Cover";
+        }
+
+        const heading = document.createElement("h3");
+        heading.textContent = title;
+
+        const authorLine = document.createElement("p");
+        const authorLabel = document.createElement("strong");
+        authorLabel.textContent = "Author: ";
+        authorLine.append(authorLabel, document.createTextNode(author));
+
+        const stars = document.createElement("p");
+        stars.textContent = "⭐".repeat(rating);
+
+        const notes = document.createElement("p");
+        notes.className = "notes";
+        notes.textContent = review || "Your review will be here...";
+
+        const actions = document.createElement("div");
+        actions.className = "book-actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "edit-book-button";
+        editButton.textContent = "Edit";
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-book-button";
+        deleteButton.textContent = "Delete";
+
+        editButton.addEventListener("click", function() {
+            editingCard = card;
+
+            form.elements.title.value = card.dataset.title;
+            form.elements.author.value = card.dataset.author;
+            form.elements.rating.value = card.dataset.rating;
+            form.elements.review.value = card.dataset.review;
+
+            saveButton.textContent = "Update book";
+            form.hidden = false;
+            form.querySelector('[name="title"]').focus();
+
+            const coverInput = form.elements.cover;
+            coverInput.value = "";
+        });
+
+        deleteButton.addEventListener("click", function() {
+            if (confirm('Are you sure you want to delete "' +
+                card.dataset.title + '"?')) {
+                card.remove();
+
+                if (editingCard === card) {
+                    editingCard = null;
+                    form.reset();
+                    form.hidden = true;
+                    saveButton.textContent = "Save book";
+                }
+            }
+        });
+
+        actions.append(editButton, deleteButton);
+        card.append(cover, heading, authorLine, stars, notes, actions);
+
+        if (oldCard) {
+            oldCard.replaceWith(card);
+        } else {
+            readingContainer.appendChild(card);
+        }
+    }
 
     form.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -160,40 +256,21 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
 
         if (!title || !author) return;
 
-        function createBookCard(coverUrl) {
-            const card = document.createElement("div");
-            card.className = "book-card";
+        function saveCard(coverUrl) {
+            createBookCard(
+                title,
+                author,
+                rating,
+                review,
+                coverUrl,
+                editingCard
+            );
 
-            const cover = document.createElement("div");
-            cover.className = "cover-placeholder";
-
-            if (coverUrl) {
-                const img = document.createElement("img");
-                img.src = coverUrl;
-                img.alt = "Cover of " + title;
-                cover.textContent = "";
-                cover.appendChild(img);
-            } else {
-                cover.textContent = "Cover";
-            }
-
-            const heading = document.createElement("h3");
-            heading.textContent = title;
-
-            const authorLine = document.createElement("p");
-            const label = document.createElement("strong");
-            label.textContent = "Author: ";
-            authorLine.append(label, document.createTextNode(author));
-
-            const stars = document.createElement("p");
-            stars.textContent = "⭐".repeat(rating);
-
-            const notes = document.createElement("p");
-            notes.className = "notes";
-            notes.textContent = review || "Your review will be here...";
-
-            card.append(cover, heading, authorLine, stars, notes);
-readingContainer.appendChild(card);
+            form.reset();
+            form.hidden = true;
+            editingCard = null;
+            saveButton.textContent = "Save book";
+        }
 
         if (file) {
             if (!file.type.startsWith("image/")) {
@@ -202,20 +279,21 @@ readingContainer.appendChild(card);
             }
 
             const reader = new FileReader();
+
             reader.onload = function() {
-                createBookCard(reader.result);
-                form.reset();
-                form.hidden = true;
+                saveCard(reader.result);
             };
+
             reader.readAsDataURL(file);
         } else {
-            createBookCard(null);
-            form.reset();
-            form.hidden = true;
+            const oldCover = editingCard
+                ? editingCard.querySelector(".cover-placeholder img")
+                : null;
+
+            saveCard(oldCover ? oldCover.src : null);
         }
     });
 });
-</script>
 
 </body>
 </html>
