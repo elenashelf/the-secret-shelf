@@ -330,3 +330,71 @@ h2 {
     }
 
 }
+
+/* Add book form */
+
+.book-form {
+    background-color: #fdf1eb;
+    border: 1px solid #e6c9c1;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.book-form h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #9b5c68;
+    text-align: center;
+    font-size: 1.6rem;
+    margin-top: 0;
+}
+
+.book-form label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.book-form input,
+.book-form select,
+.book-form textarea {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    color: #5b4038;
+    background-color: #fffaf6;
+    border: 1px solid #e6c9c1;
+    border-radius: 10px;
+}
+
+.book-form textarea {
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.cancel-button {
+    background: transparent;
+    color: #9b5c68;
+    border: 1px solid #d5a9a0;
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-family: 'Lora', serif;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: #f3e2da;
+}
+
+.book-form[hidden] {
+    display: none;
+}
