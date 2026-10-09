@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -7,7 +8,6 @@
     <title>Our Shelf | The Secret Shelf</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <nav class="dropdown-menu">
@@ -27,112 +27,116 @@
 </header>
 
 <main>
-    <div class="shelves-container">
+<div class="shelves-container">
 
-        <!-- ELENA -->
-        <section class="shelf-section">
-            <h2>Elena's Shelf</h2>
+    <section class="shelf-section">
+        <h2>Elena's Shelf</h2>
+        <button class="add-button" type="button">+ Add book</button>
 
-            <button class="add-button" type="button">+ Add book</button>
+        <form class="book-form" hidden>
+            <h3>Add a new book</h3>
 
-            <form class="book-form" hidden>
-                <h3>Add a new book</h3>
+            <label>Cover
+                <input name="cover" type="file" accept="image/*">
+            </label>
 
-                <label>Book title
-                    <input name="title" type="text" required placeholder="Enter the title">
-                </label>
+            <label>Book title
+                <input name="title" type="text" required placeholder="Enter the title">
+            </label>
 
-                <label>Author
-                    <input name="author" type="text" required placeholder="Enter the author">
-                </label>
+            <label>Author
+                <input name="author" type="text" required placeholder="Enter the author">
+            </label>
 
-                <label>Rating (1–5)
-                    <select name="rating" required>
-                        <option value="5" selected>5 stars</option>
-                        <option value="4">4 stars</option>
-                        <option value="3">3 stars</option>
-                        <option value="2">2 stars</option>
-                        <option value="1">1 star</option>
-                    </select>
-                </label>
+            <label>Rating
+                <select name="rating">
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                </select>
+            </label>
 
-                <label>Your review
-                    <textarea name="review" rows="3" placeholder="What did you think of the book?"></textarea>
-                </label>
+            <label>Your review
+                <textarea name="review" rows="3" placeholder="Your review..."></textarea>
+            </label>
 
-                <div class="form-buttons">
-                    <button type="submit" class="add-button">Save book</button>
-                    <button type="button" class="cancel-button">Cancel</button>
-                </div>
-            </form>
-
-            <div class="reading-container">
-                <div class="book-card">
-                    <div class="cover-placeholder">Cover</div>
-                    <h3>Book title</h3>
-                    <p><strong>Author:</strong> Name</p>
-                    <p>⭐⭐⭐⭐⭐</p>
-                    <p class="notes">Your review will be here...</p>
-                </div>
+            <div class="form-buttons">
+                <button type="submit" class="add-button">Save book</button>
+                <button type="button" class="cancel-button">Cancel</button>
             </div>
-        </section>
+        </form>
 
-        <!-- STEFY -->
-        <section class="shelf-section">
-            <h2>Stefy's Shelf</h2>
-
-            <button class="add-button" type="button">+ Add book</button>
-
-            <form class="book-form" hidden>
-                <h3>Add a new book</h3>
-
-                <label>Book title
-                    <input name="title" type="text" required placeholder="Enter the title">
-                </label>
-
-                <label>Author
-                    <input name="author" type="text" required placeholder="Enter the author">
-                </label>
-
-                <label>Rating (1–5)
-                    <select name="rating" required>
-                        <option value="5" selected>5 stars</option>
-                        <option value="4">4 stars</option>
-                        <option value="3">3 stars</option>
-                        <option value="2">2 stars</option>
-                        <option value="1">1 star</option>
-                    </select>
-                </label>
-
-                <label>Your review
-                    <textarea name="review" rows="3" placeholder="What did you think of the book?"></textarea>
-                </label>
-
-                <div class="form-buttons">
-                    <button type="submit" class="add-button">Save book</button>
-                    <button type="button" class="cancel-button">Cancel</button>
-                </div>
-            </form>
-
-            <div class="reading-container">
-                <div class="book-card">
-                    <div class="cover-placeholder">Cover</div>
-                    <h3>Book title</h3>
-                    <p><strong>Author:</strong> Name</p>
-                    <p>⭐⭐⭐⭐⭐</p>
-                    <p class="notes">Your review will be here...</p>
-                </div>
+        <div class="reading-container">
+            <div class="book-card">
+                <div class="cover-placeholder">Cover</div>
+                <h3>Book title</h3>
+                <p><strong>Author:</strong> Name</p>
+                <p>⭐⭐⭐⭐⭐</p>
+                <p class="notes">Your review will be here...</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </div>
+    <section class="shelf-section">
+        <h2>Stefy's Shelf</h2>
+        <button class="add-button" type="button">+ Add book</button>
+
+        <form class="book-form" hidden>
+            <h3>Add a new book</h3>
+
+            <label>Cover
+                <input name="cover" type="file" accept="image/*">
+            </label>
+
+            <label>Book title
+                <input name="title" type="text" required placeholder="Enter the title">
+            </label>
+
+            <label>Author
+                <input name="author" type="text" required placeholder="Enter the author">
+            </label>
+
+            <label>Rating
+                <select name="rating">
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                </select>
+            </label>
+
+            <label>Your review
+                <textarea name="review" rows="3" placeholder="Your review..."></textarea>
+            </label>
+
+            <div class="form-buttons">
+                <button type="submit" class="add-button">Save book</button>
+                <button type="button" class="cancel-button">Cancel</button>
+            </div>
+        </form>
+
+        <div class="reading-container">
+            <div class="book-card">
+                <div class="cover-placeholder">Cover</div>
+                <h3>Book title</h3>
+                <p><strong>Author:</strong> Name</p>
+                <p>⭐⭐⭐⭐⭐</p>
+                <p class="notes">Your review will be here...</p>
+            </div>
+        </div>
+    </section>
+
+</div>
 </main>
 
 <script>
 document.querySelectorAll(".shelf-section").forEach(function(shelf) {
-    const addButton = shelf.querySelector(".add-button");
+    const addButton = shelf.querySelector(":scope > .add-button");
     const form = shelf.querySelector(".book-form");
-    const cancelButton = shelf.querySelector(".cancel-button");
+    const cancelButton = form.querySelector(".cancel-button");
     const readingContainer = shelf.querySelector(".reading-container");
 
     addButton.addEventListener("click", function() {
@@ -151,43 +155,68 @@ document.querySelectorAll(".shelf-section").forEach(function(shelf) {
         const author = form.elements.author.value.trim();
         const rating = Number(form.elements.rating.value);
         const review = form.elements.review.value.trim();
+        const file = form.elements.cover.files[0];
 
         if (!title || !author) return;
 
-        const card = document.createElement("div");
-        card.className = "book-card";
+        function createBookCard(coverUrl) {
+            const card = document.createElement("div");
+            card.className = "book-card";
 
-        const cover = document.createElement("div");
-        cover.className = "cover-placeholder";
-        cover.textContent = "Cover";
+            const cover = document.createElement("div");
+            cover.className = "cover-placeholder";
 
-        const heading = document.createElement("h3");
-        heading.textContent = title;
+            if (coverUrl) {
+                const img = document.createElement("img");
+                img.src = coverUrl;
+                img.alt = "Cover of " + title;
+                cover.textContent = "";
+                cover.appendChild(img);
+            } else {
+                cover.textContent = "Cover";
+            }
 
-        const authorLine = document.createElement("p");
-        const authorLabel = document.createElement("strong");
-        authorLabel.textContent = "Author: ";
-        authorLine.append(authorLabel, document.createTextNode(author));
+            const heading = document.createElement("h3");
+            heading.textContent = title;
 
-        const stars = document.createElement("p");
-        stars.textContent = "⭐".repeat(rating);
+            const authorLine = document.createElement("p");
+            const label = document.createElement("strong");
+            label.textContent = "Author: ";
+            authorLine.append(label, document.createTextNode(author));
 
-        const notes = document.createElement("p");
-        notes.className = "notes";
-        notes.textContent = review || "No review yet.";
+            const stars = document.createElement("p");
+            stars.textContent = "⭐".repeat(rating);
 
-        card.append(cover, heading, authorLine, stars, notes);
-        readingContainer.appendChild(card);
+            const notes = document.createElement("p");
+            notes.className = "notes";
+            notes.textContent = review || "Your review will be here...";
 
-        form.reset();
-        form.hidden = true;
+            card.append(cover, heading, authorLine, stars, notes);
+            readingContainer.appendChild(card);
+        }
+
+        if (file) {
+            if (!file.type.startsWith("image/")) {
+                alert("Please choose an image for the cover.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function() {
+                createBookCard(reader.result);
+                form.reset();
+                form.hidden = true;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            createBookCard(null);
+            form.reset();
+            form.hidden = true;
+        }
     });
 });
 </script>
 
 </body>
 </html>
-
-</html>
-
 
