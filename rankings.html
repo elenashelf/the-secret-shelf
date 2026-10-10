@@ -1,0 +1,899 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rankings | The Secret Shelf</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #faf3ed;
+      color: #5b4038;
+      font-family: 'Lora', serif;
+      line-height: 1.6;
+    }
+
+    .top-nav {
+      padding: 16px 20px;
+      background: #fffaf6;
+      border-bottom: 1px solid #e6c9c1;
+      text-align: center;
+    }
+
+    .top-nav a {
+      display: inline-block;
+      margin: 4px 12px;
+      color: #8d5661;
+      text-decoration: none;
+    }
+
+    .top-nav a:hover { text-decoration: underline; }
+
+    .hero {
+      padding: 45px 20px 25px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: #9b5c68;
+      font: 600 clamp(3rem, 7vw, 4.6rem)/1.1 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .hero p {
+      margin: 12px 0;
+      color: #8b6b62;
+      font-style: italic;
+    }
+
+    main {
+      width: min(1200px, 100%);
+      margin: auto;
+      padding: 20px;
+    }
+
+    .intro {
+      max-width: 650px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+
+    .intro p { color: #82665e; }
+
+    .rankings-container {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .ranking-section {
+      min-width: 0;
+      padding: 25px;
+      background: #fffaf6;
+      border: 1px solid #e6c9c1;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(120, 80, 70, .10);
+    }
+
+    .ranking-section h2 {
+      margin: 0 0 8px;
+      color: #9b5c68;
+      font: 600 2.3rem 'Cormorant Garamond', Georgia, serif;
+      text-align: center;
+    }
+
+    .section-description {
+      margin: 0 0 22px;
+      color: #8b6b62;
+      text-align: center;
+      font-size: .9rem;
+      font-style: italic;
+    }
+
+    button { font: inherit; }
+
+    .add-button, .save-button, .cancel-button,
+    .edit-button, .delete-button, .move-button {
+      padding: 9px 14px;
+      border: 1px solid #d5a9a0;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .add-button, .save-button {
+      background: #9b5c68;
+      color: #fffaf6;
+    }
+
+    .add-button {
+      display: block;
+      margin: 0 auto 22px;
+    }
+
+    .add-button:hover, .save-button:hover {
+      background: #824956;
+    }
+
+    button:hover { transform: translateY(-1px); }
+
+    button:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .book-form[hidden] { display: none !important; }
+
+    .book-form {
+      margin-bottom: 24px;
+      padding: 18px;
+      background: #fdf1eb;
+      border: 1px solid #e6c9c1;
+      border-radius: 18px;
+    }
+
+    .book-form h3 {
+      margin: 0 0 15px;
+      color: #9b5c68;
+      font: 600 1.8rem 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .book-form label {
+      display: block;
+      margin: 13px 0;
+      font-size: .95rem;
+    }
+
+    .book-form input[type="text"],
+    .book-form select,
+    .book-form textarea {
+      display: block;
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      border: 1px solid #d5a9a0;
+      border-radius: 10px;
+      background: #fffaf6;
+      color: #5b4038;
+      font: inherit;
+    }
+
+    .book-form input[type="file"] {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      font: inherit;
+    }
+
+    .cover-preview {
+      width: min(100%, 200px);
+      aspect-ratio: 1;
+      margin: 15px auto;
+      overflow: hidden;
+      border: 2px dashed #d5a9a0;
+      border-radius: 12px;
+      background: #f8eee8;
+    }
+
+    .cover-preview[hidden] { display: none !important; }
+
+    .cover-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .form-buttons, .book-actions, .move-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .cancel-button, .edit-button, .move-button {
+      background: #f3e2da;
+      color: #704b43;
+    }
+
+    .delete-button {
+      background: #fffaf6;
+      border-color: #c98d91;
+      color: #9b3f4d;
+    }
+
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .rank-card {
+      position: relative;
+      min-width: 0;
+      padding: 16px;
+      background: #fffdfb;
+      border: 1px solid #ead5cd;
+      border-radius: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .rank-card.first-place {
+      background: #fcf0e0;
+      border: 1px solid #d6b477;
+      box-shadow: 0 5px 15px rgba(160, 120, 60, .12);
+    }
+
+    .rank-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .rank-number {
+      display: flex;
+      flex: 0 0 48px;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d5a9a0;
+      border-radius: 50%;
+      background: #f3e2da;
+      color: #824956;
+      font: 700 1.35rem 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .first-place .rank-number {
+      background: #ead19b;
+      border-color: #c6a25b;
+      color: #65451e;
+    }
+
+    .rank-label {
+      color: #8b6b62;
+      font-size: .76rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .rank-content {
+      display: grid;
+      grid-template-columns: minmax(90px, 120px) minmax(0, 1fr);
+      gap: 15px;
+      align-items: start;
+    }
+
+    .cover-placeholder {
+      display: flex;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #f8eee8;
+      border: 2px dashed #d5a9a0;
+      border-radius: 10px;
+      color: #9b756c;
+      font-size: .8rem;
+      text-align: center;
+    }
+
+    .cover-placeholder img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .rank-card h3 {
+      margin: 0 0 5px;
+      color: #9b5c68;
+      font: 600 1.65rem/1.2 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .rank-author {
+      margin: 0 0 9px;
+      color: #82665e;
+      font-size: .9rem;
+    }
+
+    .rank-rating {
+      margin: 6px 0;
+      color: #b47c38;
+      letter-spacing: 1px;
+    }
+
+    .rank-review {
+      margin: 12px 0 0;
+      padding: 10px;
+      background: #fdf1eb;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      font-size: .9rem;
+    }
+
+    .rank-review:empty { display: none; }
+
+    .empty-message {
+      color: #9b756c;
+      font-style: italic;
+      text-align: center;
+      padding: 18px 8px;
+    }
+
+    .empty-message[hidden] { display: none !important; }
+
+    .footer-note {
+      padding: 25px 10px 40px;
+      color: #8b6b62;
+      font-size: .85rem;
+      text-align: center;
+    }
+
+    @media (max-width: 820px) {
+      .rankings-container { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 430px) {
+      main { padding: 12px; }
+      .ranking-section { padding: 16px; }
+      .rank-content { grid-template-columns: 90px minmax(0, 1fr); gap: 12px; }
+      .rank-card { padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="top-nav" aria-label="Main navigation">
+    <a href="index.html">Home</a>
+    <a href="shelf.html">Our Shelf</a>
+    <a href="rankings.html">The Rankings</a>
+  </nav>
+
+  <header class="hero">
+    <h1>The Rankings</h1>
+    <p>Every reader has their favourites.</p>
+  </header>
+
+  <main>
+    <div class="intro">
+      <p>
+        Two readers, two personal rankings. Add your books, give them a rating,
+        and arrange them in exactly the order you love.
+      </p>
+    </div>
+
+    <div class="rankings-container">
+
+      <section class="ranking-section" data-ranking="elena">
+        <h2>Elena's Rankings</h2>
+        <p class="section-description">My books, my order, my favourites.</p>
+        <button class="add-button" type="button">+ Add a book</button>
+
+        <form class="book-form" hidden>
+          <h3>Add a book</h3>
+
+          <label>
+            Cover image
+            <input name="cover" type="file" accept="image/*">
+          </label>
+
+          <div class="cover-preview" hidden>
+            <img alt="Cover preview">
+          </div>
+
+          <label>
+            Title *
+            <input name="title" type="text" required maxlength="160"
+                   placeholder="Book title">
+          </label>
+
+          <label>
+            Author *
+            <input name="author" type="text" required maxlength="120"
+                   placeholder="Author's name">
+          </label>
+
+          <label>
+            My rating
+            <select name="rating">
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="1">★☆☆☆☆</option>
+            </select>
+          </label>
+
+          <label>
+            Why is it on my ranking? (optional)
+            <textarea name="review" rows="3"
+                      placeholder="A favourite quote, a feeling, a memory..."></textarea>
+          </label>
+
+          <div class="form-buttons">
+            <button class="save-button" type="submit">Save book</button>
+            <button class="cancel-button" type="button">Cancel</button>
+          </div>
+        </form>
+
+        <div class="ranking-list"></div>
+        <p class="empty-message">Your ranking is waiting for its first book.</p>
+      </section>
+
+      <section class="ranking-section" data-ranking="stefy">
+        <h2>Stefy's Rankings</h2>
+        <p class="section-description">Her books, her order, her favourites.</p>
+        <button class="add-button" type="button">+ Add a book</button>
+
+        <form class="book-form" hidden>
+          <h3>Add a book</h3>
+
+          <label>
+            Cover image
+            <input name="cover" type="file" accept="image/*">
+          </label>
+
+          <div class="cover-preview" hidden>
+            <img alt="Cover preview">
+          </div>
+
+          <label>
+            Title *
+            <input name="title" type="text" required maxlength="160"
+                   placeholder="Book title">
+          </label>
+
+          <label>
+            Author *
+            <input name="author" type="text" required maxlength="120"
+                   placeholder="Author's name">
+          </label>
+
+          <label>
+            My rating
+            <select name="rating">
+              <option value="5">★★★★★</option>
+              <option value="4">★★★★☆</option>
+              <option value="3">★★★☆☆</option>
+              <option value="2">★★☆☆☆</option>
+              <option value="1">★☆☆☆☆</option>
+            </select>
+          </label>
+
+          <label>
+            Why is it on my ranking? (optional)
+            <textarea name="review" rows="3"
+                      placeholder="A favourite quote, a feeling, a memory..."></textarea>
+          </label>
+
+          <div class="form-buttons">
+            <button class="save-button" type="submit">Save book</button>
+            <button class="cancel-button" type="button">Cancel</button>
+          </div>
+        </form>
+
+        <div class="ranking-list"></div>
+        <p class="empty-message">Your ranking is waiting for its first book.</p>
+      </section>
+
+    </div>
+
+    <p class="footer-note">
+      Made of stories, feelings, and a little friendly competition. ♡
+    </p>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // Separate storage from Our Shelf and between Elena and Stefy.
+      const STORAGE_KEY = "theSecretShelfRankings_v1";
+
+      function emptyRankings() {
+        return { elena: [], stefy: [] };
+      }
+
+      function loadRankings() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (!saved) return emptyRankings();
+
+          const parsed = JSON.parse(saved);
+          return {
+            elena: Array.isArray(parsed.elena) ? parsed.elena : [],
+            stefy: Array.isArray(parsed.stefy) ? parsed.stefy : []
+          };
+        } catch (error) {
+          alert("The saved rankings could not be read.");
+          return emptyRankings();
+        }
+      }
+
+      let rankings = loadRankings();
+
+      function persistRankings() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(rankings));
+          return true;
+        } catch (error) {
+          alert("The ranking could not be saved. Try using a smaller cover image.");
+          return false;
+        }
+      }
+
+      function makeId() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+          return window.crypto.randomUUID();
+        }
+        return String(Date.now()) + Math.random().toString(16).slice(2);
+      }
+
+      function prepareCover(file) {
+        return new Promise(function (resolve, reject) {
+          if (!file) {
+            resolve(null);
+            return;
+          }
+
+          if (!file.type.startsWith("image/")) {
+            reject(new Error("Please choose an image file."));
+            return;
+          }
+
+          const reader = new FileReader();
+
+          reader.onerror = function () {
+            reject(new Error("The cover image could not be read."));
+          };
+
+          reader.onload = function () {
+            const image = new Image();
+
+            image.onerror = function () {
+              reject(new Error("The selected image could not be opened."));
+            };
+
+            image.onload = function () {
+              const maxSide = 600;
+              const scale = Math.min(
+                1,
+                maxSide / Math.max(image.naturalWidth, image.naturalHeight)
+              );
+
+              const canvas = document.createElement("canvas");
+              canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+              canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+              const context = canvas.getContext("2d");
+              if (!context) {
+                reject(new Error("The cover could not be processed."));
+                return;
+              }
+
+              context.fillStyle = "#fffaf6";
+              context.fillRect(0, 0, canvas.width, canvas.height);
+              context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+              try {
+                resolve(canvas.toDataURL("image/jpeg", 0.78));
+              } catch (error) {
+                reject(new Error("The cover could not be prepared."));
+              }
+            };
+
+            image.src = reader.result;
+          };
+
+          reader.readAsDataURL(file);
+        });
+      }
+
+      function renderRanking(key) {
+        const section = document.querySelector('[data-ranking="' + key + '"]');
+        const list = section.querySelector(".ranking-list");
+        const empty = section.querySelector(".empty-message");
+
+        list.replaceChildren();
+
+        rankings[key].forEach(function (book, index) {
+          const card = document.createElement("article");
+          card.className = "rank-card" + (index === 0 ? " first-place" : "");
+
+          const heading = document.createElement("div");
+          heading.className = "rank-heading";
+
+          const number = document.createElement("div");
+          number.className = "rank-number";
+          number.textContent = index === 0 ? "👑" : "#" + (index + 1);
+          number.setAttribute("aria-label", "Position " + (index + 1));
+
+          const label = document.createElement("div");
+          label.className = "rank-label";
+          label.textContent = index === 0 ? "My number one" : "Position " + (index + 1);
+
+          heading.append(number, label);
+
+          const content = document.createElement("div");
+          content.className = "rank-content";
+
+          const cover = document.createElement("div");
+          cover.className = "cover-placeholder";
+
+          if (book.cover) {
+            const img = document.createElement("img");
+            img.src = book.cover;
+            img.alt = "Cover of " + book.title;
+            cover.appendChild(img);
+          } else {
+            cover.textContent = "Book cover";
+          }
+
+          const details = document.createElement("div");
+
+          const title = document.createElement("h3");
+          title.textContent = book.title;
+
+          const author = document.createElement("p");
+          author.className = "rank-author";
+          author.textContent = "by " + book.author;
+
+          const rating = document.createElement("p");
+          rating.className = "rank-rating";
+          rating.textContent =
+            "★".repeat(Number(book.rating)) +
+            "☆".repeat(5 - Number(book.rating));
+
+          const review = document.createElement("p");
+          review.className = "rank-review";
+          review.textContent = book.review || "";
+
+          details.append(title, author, rating, review);
+          content.append(cover, details);
+
+          const moveActions = document.createElement("div");
+          moveActions.className = "move-actions";
+
+          const up = document.createElement("button");
+          up.type = "button";
+          up.className = "move-button";
+          up.textContent = "↑ Move up";
+          up.disabled = index === 0;
+          up.addEventListener("click", function () {
+            moveBook(key, index, index - 1);
+          });
+
+          const down = document.createElement("button");
+          down.type = "button";
+          down.className = "move-button";
+          down.textContent = "↓ Move down";
+          down.disabled = index === rankings[key].length - 1;
+          down.addEventListener("click", function () {
+            moveBook(key, index, index + 1);
+          });
+
+          moveActions.append(up, down);
+
+          const actions = document.createElement("div");
+          actions.className = "book-actions";
+
+          const edit = document.createElement("button");
+          edit.type = "button";
+          edit.className = "edit-button";
+          edit.textContent = "✏️ Edit";
+          edit.addEventListener("click", function () {
+            openForm(key, book.id);
+          });
+
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "delete-button";
+          remove.textContent = "🗑 Delete";
+          remove.addEventListener("click", function () {
+            if (!window.confirm('Delete "' + book.title + '" from this ranking?')) {
+              return;
+            }
+
+            const previous = rankings[key];
+            rankings[key] = previous.filter(function (item) {
+              return item.id !== book.id;
+            });
+
+            if (!persistRankings()) {
+              rankings[key] = previous;
+              return;
+            }
+
+            renderRanking(key);
+          });
+
+          actions.append(edit, remove);
+          card.append(heading, content, moveActions, actions);
+          list.appendChild(card);
+        });
+
+        empty.hidden = rankings[key].length > 0;
+      }
+
+      function moveBook(key, from, to) {
+        if (to < 0 || to >= rankings[key].length) return;
+
+        const previous = rankings[key].slice();
+        const moved = rankings[key].splice(from, 1)[0];
+        rankings[key].splice(to, 0, moved);
+
+        if (!persistRankings()) {
+          rankings[key] = previous;
+          return;
+        }
+
+        renderRanking(key);
+      }
+
+      function openForm(key, bookId) {
+        const section = document.querySelector('[data-ranking="' + key + '"]');
+        const form = section.querySelector(".book-form");
+        const preview = form.querySelector(".cover-preview");
+        const previewImage = preview.querySelector("img");
+
+        form.reset();
+
+        const book = bookId
+          ? rankings[key].find(function (item) {
+              return item.id === bookId;
+            })
+          : null;
+
+        form.dataset.editingId = book ? book.id : "";
+        form.querySelector("h3").textContent = book ? "Edit book" : "Add a book";
+        form.querySelector('[type="submit"]').textContent =
+          book ? "Save changes" : "Save book";
+
+        if (book) {
+          form.elements.title.value = book.title;
+          form.elements.author.value = book.author;
+          form.elements.rating.value = String(book.rating);
+          form.elements.review.value = book.review || "";
+
+          if (book.cover) {
+            previewImage.src = book.cover;
+            preview.hidden = false;
+          } else {
+            previewImage.removeAttribute("src");
+            preview.hidden = true;
+          }
+        } else {
+          previewImage.removeAttribute("src");
+          preview.hidden = true;
+        }
+
+        form.hidden = false;
+        form.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        form.elements.title.focus();
+      }
+
+      document.querySelectorAll(".ranking-section").forEach(function (section) {
+        const key = section.dataset.ranking;
+        const form = section.querySelector(".book-form");
+        const coverInput = form.elements.cover;
+        const preview = form.querySelector(".cover-preview");
+        const previewImage = preview.querySelector("img");
+
+        section.querySelector(".add-button").addEventListener("click", function () {
+          openForm(key, null);
+        });
+
+        section.querySelector(".cancel-button").addEventListener("click", function () {
+          form.reset();
+          form.hidden = true;
+          form.dataset.editingId = "";
+          preview.hidden = true;
+          previewImage.removeAttribute("src");
+        });
+
+        coverInput.addEventListener("change", function () {
+          const file = coverInput.files && coverInput.files[0];
+          if (!file) return;
+
+          if (!file.type.startsWith("image/")) {
+            alert("Please select an image file.");
+            coverInput.value = "";
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function () {
+            previewImage.src = reader.result;
+            preview.hidden = false;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        form.addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const title = form.elements.title.value.trim();
+          const author = form.elements.author.value.trim();
+          const rating = Number(form.elements.rating.value);
+          const review = form.elements.review.value.trim();
+          const editingId = form.dataset.editingId;
+
+          if (!title || !author) {
+            alert("Please enter both a title and an author.");
+            return;
+          }
+
+          const existing = editingId
+            ? rankings[key].find(function (item) {
+                return item.id === editingId;
+              })
+            : null;
+
+          const saveButton = form.querySelector('[type="submit"]');
+          saveButton.disabled = true;
+
+          try {
+            const file = coverInput.files && coverInput.files[0];
+            const newCover = file ? await prepareCover(file) : null;
+
+            const updated = {
+              id: existing ? existing.id : makeId(),
+              title: title,
+              author: author,
+              rating: rating,
+              review: review,
+              cover: newCover !== null
+                ? newCover
+                : (existing ? existing.cover : "")
+            };
+
+            const previous = rankings[key].slice();
+
+            if (existing) {
+              rankings[key] = rankings[key].map(function (item) {
+                return item.id === existing.id ? updated : item;
+              });
+            } else {
+              // New books go to the bottom; the user can move them afterwards.
+              rankings[key].push(updated);
+            }
+
+            if (!persistRankings()) {
+              rankings[key] = previous;
+              return;
+            }
+
+            renderRanking(key);
+
+            form.reset();
+            form.hidden = true;
+            form.dataset.editingId = "";
+            preview.hidden = true;
+            previewImage.removeAttribute("src");
+          } catch (error) {
+            alert(error.message || "Could not save the book. Please try again.");
+          } finally {
+            saveButton.disabled = false;
+          }
+        });
+
+        renderRanking(key);
+      });
+    })();
+  </script>
+</body>
+</html>
